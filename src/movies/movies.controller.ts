@@ -1,4 +1,13 @@
-import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Patch,
+	Post,
+} from '@nestjs/common';
+import { CreateMovieDto } from './dto/create-movie.dto';
 import { Movie } from './entities/movie.entity';
 import { MoviesService } from './movies.service';
 
@@ -17,8 +26,8 @@ export class MoviesController {
 	}
 
 	@Post()
-	createMovie() {
-		return 'This will create movice';
+	create(@Body() movieData: CreateMovieDto) {
+		return this.moviesService.create(movieData);
 	}
 
 	@Delete('/:id')
@@ -31,7 +40,7 @@ export class MoviesController {
 
 	// 리소스의 특정부분만 업데이트
 	@Patch('/:id')
-	patchMovie(@Param('id') movieId: string) {
-		return `${movieId} moive updated`;
+	patchMovie(@Param('id') movieId: string, @Body() movieData) {
+		return this.moviesService.update(movieId, movieData);
 	}
 }
